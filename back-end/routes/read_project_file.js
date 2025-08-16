@@ -1,21 +1,6 @@
 const fs = require("fs/promises");
+const { findFileRecursively } = require("../helpers/find-files-recursively");
 const path = require("path");
-
-const findFileRecursively = async (directory, fileName) => {
-  const dirents = await fs.readdir(directory, { withFileTypes: true });
-  for (const dirent of dirents) {
-    const fullPath = path.join(directory, dirent.name);
-    if (dirent.isDirectory()) {
-      const result = await findFileRecursively(fullPath, fileName);
-      if (result) {
-        return result;
-      }
-    } else if (dirent.name === fileName) {
-      return fullPath;
-    }
-  }
-  return null;
-};
 
 module.exports = (notebookDir) => async (req, res) => {
   const { project, file } = req.params;
