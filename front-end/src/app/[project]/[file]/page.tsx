@@ -11,9 +11,9 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const [content, setContent] = useState("");
+  const { project, file } = use(params);
 
   useEffect(() => {
-    const { project, file } = use(params);
     if (!project || !file) return;
 
     const eventSource = new EventSource(
@@ -21,12 +21,14 @@ export default function Page({ params }: PageProps) {
     );
 
     eventSource.onmessage = (event) => {
+      console.log("message recieved");
       try {
         const data = JSON.parse(event.data);
         if (data.contents) {
           setContent(data.contents);
         }
       } catch (error) {
+        console.log("no message no mas");
         console.error("Failed to parse SSE data:", error);
       }
     };
@@ -39,7 +41,7 @@ export default function Page({ params }: PageProps) {
     return () => {
       eventSource.close();
     };
-  }, [params]);
+  }, [project, file, setContent]);
 
   return <main>{content}</main>;
 }
