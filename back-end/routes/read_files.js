@@ -1,5 +1,5 @@
-const fs = require('fs/promises');
-const path = require('path');
+const fs = require("fs/promises");
+const path = require("path");
 
 const getFilesRecursively = async (dir, relativeTo) => {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
@@ -11,7 +11,7 @@ const getFilesRecursively = async (dir, relativeTo) => {
       } else {
         return { fileName: path.relative(relativeTo, resPath) };
       }
-    })
+    }),
   );
   return files.flat();
 };
@@ -29,11 +29,11 @@ module.exports = (notebookDir) => async (req, res) => {
             project: dirent.name,
             files: files,
           };
-        })
+        }),
     );
     res.json(projects);
   } catch (error) {
-    console.error('Error reading notebook directory:', error);
-    res.status(500).send('Error reading notebook directory');
+    console.error("Error reading notebook directory:", error);
+    res.status(500).send("Error reading notebook directory");
   }
 };
