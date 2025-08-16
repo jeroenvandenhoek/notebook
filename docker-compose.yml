@@ -19,6 +19,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ${NOTEBOOK_FOLDER:-/Users/jeroen/Notes}:/app/notebooks
+      - ${NOTEBOOK_FOLDER:-/Users/jeroen/Notes}:/app/notebooks # the file path /Users/jeroen/Notes should be replaced with the variable that is defined in the env_file AI!
     environment:
       - NOTEBOOK_PATH=/app/notebooks
