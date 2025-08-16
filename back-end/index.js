@@ -19,7 +19,7 @@ app.use(express.json());
 // GET /files - Retrieve all file names in the notebook directory
 app.get("/files", readFilesHandler);
 
-// GET /project/:project/:file - Retrieve a single file's content
+// GET /:project/:file - Retrieve a single file's content
 app.get("/:project/:file", readProjectFileHandler);
 
 app.listen(port, () => {
