@@ -1,8 +1,8 @@
-const fs = require("fs");
+const fs = require("fs/promises");
 const path = require("path");
 
-export const findFileRecursively = async (directory, fileName) => {
-  const dirents = fs.readdir(directory, { withFileTypes: true });
+const findFileRecursively = async (directory, fileName) => {
+  const dirents = await fs.readdir(directory, { withFileTypes: true });
   for (const dirent of dirents) {
     const fullPath = path.join(directory, dirent.name);
     if (dirent.isDirectory()) {
@@ -16,3 +16,5 @@ export const findFileRecursively = async (directory, fileName) => {
   }
   return null;
 };
+
+module.exports = { findFileRecursively };
