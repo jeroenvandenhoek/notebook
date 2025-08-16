@@ -1,7 +1,7 @@
 const fs = require("fs");
 const fsPromises = require("fs/promises");
-const { findFileRecursively } = require("../helpers/find-files-recursively");
 const path = require("path");
+const { findFileRecursively } = require("../helpers/find-files-recursively");
 
 module.exports = (notebookDir) => async (req, res) => {
   const { project, file } = req.params;
