@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Mermaid from "../../../components/Mermaid";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     project: string;
     file: string;
-  };
+  }>;
 };
 
 export default function Page({ params }: PageProps) {
   const [content, setContent] = useState("");
-  const { project, file } = params;
+  const { project, file } = use(params);
 
   useEffect(() => {
     if (!project || !file) return;
@@ -42,7 +42,7 @@ export default function Page({ params }: PageProps) {
     return () => {
       eventSource.close();
     };
-  }, [project, file]);
+  }, [project, file, setContent]);
 
   return (
     <main>
