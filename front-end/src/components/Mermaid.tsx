@@ -1,29 +1,32 @@
 "use client";
 
-import mermaid from "mermaid";
 import { useEffect } from "react";
+import mermaid from "mermaid";
 
-type MermaidProps = {
-  chart: string;
-};
+const diagramId = "mermaid-diagram-container";
 
-const Mermaid = ({ chart }: MermaidProps) => {
+export default function Mermaid({ chart }: { chart: string }) {
   useEffect(() => {
-    if (chart) {
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: "default",
-        securityLevel: "loose",
-      });
-      mermaid.run();
-    }
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "default",
+      securityLevel: "loose",
+    });
+
+    const renderDiagram = async () => {
+      const container = document.getElementById(diagramId);
+      if (container) {
+        try {
+          const { svg } = await mermaid.render("graphDiv", chart);
+          container.innerHTML = svg;
+        } catch (error) {
+          container.innerHTML = `<pre>${error instanceof Error ? error.message : "Error rendering diagram"}</pre>`;
+        }
+      }
+    };
+
+    renderDiagram();
   }, [chart]);
 
-  if (!chart) {
-    return null;
-  }
-
-  return <pre className="mermaid">{chart}</pre>;
-};
-
-export default Mermaid;
+  return <div id={diagramId} />;
+}
