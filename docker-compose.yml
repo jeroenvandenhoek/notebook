@@ -19,8 +19,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ${NOTEBOOK_FOLDER}:/app/notebooks
+      - ${NOTEBOOK_FOLDER:-./notebooks}:/app/notebooks
     environment:
       - NOTEBOOK_PATH=/app/notebooks
-    env_file:
-      - .env.local
