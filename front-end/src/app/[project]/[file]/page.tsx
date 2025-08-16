@@ -26,7 +26,6 @@ export default function Page({ params }: PageProps) {
         if (data.contents) {
           setContent(data.contents);
         }
-        eventSource.close();
       } catch (error) {
         console.error("Failed to parse SSE data:", error);
       }
