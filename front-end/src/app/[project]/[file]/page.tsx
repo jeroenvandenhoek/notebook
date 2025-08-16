@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     project: string;
     file: string;
-  };
+  }>;
 };
 
 export default function Page({ params }: PageProps) {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    const { project, file } = params;
+    const { project, file } = use(params);
     if (!project || !file) return;
 
     const eventSource = new EventSource(
