@@ -20,7 +20,7 @@ app.use(express.json());
 app.get("/files", readFilesHandler);
 
 // GET /project/:project/:file - Retrieve a single file's content
-app.get("/project/:project/:file", readProjectFileHandler);
+app.get("/:project/:file", readProjectFileHandler);
 
 app.listen(port, () => {
   console.log(`Back-end server listening at http://localhost:${port}`);
