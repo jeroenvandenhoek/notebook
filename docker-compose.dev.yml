@@ -4,11 +4,16 @@ services:
   front-end:
     build:
       context: ./front-end
-    container_name: front-end
+      target: dev
+    container_name: front-end-dev
     ports:
       - "3000:3000"
+    volumes:
+      - ./front-end:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
   back-end:
-    container_name: back-end
+    container_name: back-end-dev
     build:
       context: ./back-end
       dockerfile: Dockerfile
