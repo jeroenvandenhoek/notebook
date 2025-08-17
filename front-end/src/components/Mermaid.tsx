@@ -28,5 +28,5 @@ export default function Mermaid({ chart }: { chart: string }) {
     renderDiagram();
   }, [chart]);
 
-  return <div id={diagramId} />;
+  return <div className="w-full" id={diagramId} />;
 }
