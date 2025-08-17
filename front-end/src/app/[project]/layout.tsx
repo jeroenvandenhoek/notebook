@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import Link from "next/link";
 
 interface ProjectFile {
   fileName: string;
@@ -38,56 +39,41 @@ const Layout = ({ children }: Props) => {
     fetchProjects();
   }, []);
 
-  const handleFileClick = (projectName: string, fileName: string) => {
+  const composeRoute = (projectName: string, fileName: string) => {
     // The backend API for fetching a file seems to only support lookup by
     // file basename inside a project, not by a nested path.
     const basename = fileName.split("/").pop();
     if (!basename) {
       return;
     }
-    router.push(`/${projectName}/${basename}`);
+    // router.push(`/${projectName}/${basename}`);
+    return `/${projectName}/${basename}`;
   };
 
   return (
     <div className="flex">
-      <div
-        style={{
-          width: "250px",
-          minWidth: "250px",
-          borderRight: "1px solid #e0e0e0",
-          padding: "1rem",
-          height: "100vh",
-          overflowY: "auto",
-        }}
-      >
-        <h2 style={{ marginTop: 0 }}>Projects</h2>
+      <div className="h-screen w-64 border-e-1 overflow-y-auto">
+        <h2 className="sr-only">Projects</h2>
         {projects.map((project) => (
           <div key={project.project}>
-            <h3 className="text-xl text-amber-300">{project.project}</h3>
-            <ul style={{ paddingLeft: "1rem", listStyle: "none" }}>
+            <h3 className="px-2 text-xl text-amber-300">{project.project}</h3>
+            <ul>
               {project.files.map((file) => {
                 const basename = file.fileName.split("/").pop() || "";
                 const isActive =
-                  project.project === params.project && basename === params.file;
+                  project.project === params.project &&
+                  basename === params.file;
                 return (
-                  <li key={file.fileName} style={{ marginBottom: "0.5rem" }}>
-                    <button
-                      onClick={() =>
-                        handleFileClick(project.project, file.fileName)
-                      }
-                      style={{
-                        background: isActive ? "#e0e0e0" : "white",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                        padding: "0.5rem",
-                        cursor: "pointer",
-                        textAlign: "left",
-                        width: "100%",
-                        color: "black",
-                      }}
+                  <li
+                    key={file.fileName}
+                    className="w-full mb-1 overflow-x-clip"
+                  >
+                    <Link
+                      href={composeRoute(project.project, file.fileName) ?? "/"}
+                      className={`w-full flex justify-start cursor-pointer hover:bg-teal-900 pt-2 pb-0.5 ${isActive ? "border-b-1 border-b-teal-600 mx-2" : "px-2"}`}
                     >
-                      {file.fileName}
-                    </button>
+                      {file.fileName.split("/").pop()?.split(".").shift()}
+                    </Link>
                   </li>
                 );
               })}
