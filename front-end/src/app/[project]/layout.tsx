@@ -8,7 +8,7 @@ interface ProjectFile {
 }
 
 interface Project {
-  projectName: string;
+  project: string;
   files: ProjectFile[];
 }
 
@@ -38,6 +38,7 @@ const Layout = ({ children }: Props) => {
   }, []);
 
   const handleFileClick = (projectName: string, fileName: string) => {
+    console.log(projectName);
     // The backend API for fetching a file seems to only support lookup by
     // file basename inside a project, not by a nested path.
     const basename = fileName.split("/").pop();
@@ -61,15 +62,16 @@ const Layout = ({ children }: Props) => {
       >
         <h2 style={{ marginTop: 0 }}>Projects</h2>
         {projects.map((project) => (
-          <div key={project.projectName}>
-            <h3>{project.projectName}</h3>
+          <div key={project.project}>
+            <h3 className="text-xl text-amber-300">{project.project}</h3>
             <ul style={{ paddingLeft: "1rem", listStyle: "none" }}>
               {project.files.map((file) => (
                 <li key={file.fileName} style={{ marginBottom: "0.5rem" }}>
                   <button
-                    onClick={() =>
-                      handleFileClick(project.projectName, file.fileName)
-                    }
+                    onClick={() => {
+                      console.log(project);
+                      return handleFileClick(project.project, file.fileName);
+                    }}
                     style={{
                       background: "none",
                       border: "none",
