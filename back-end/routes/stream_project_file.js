@@ -53,7 +53,7 @@ module.exports = (notebookDir) => async (req, res) => {
       }
     };
 
-    fs.watchFile(filePath, { interval: 1000 }, listener);
+    fs.watchFile(filePath, { interval: 250 }, listener);
 
     // Stop watching when client disconnects
     req.on("close", () => {
