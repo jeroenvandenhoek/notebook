@@ -9,9 +9,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./front-end:/usr/src/app
-      - /usr/src/app/node_modules
-      - /usr/src/app/.next
+      - ./front-end:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   back-end:
     container_name: back-end-dev
     build:
