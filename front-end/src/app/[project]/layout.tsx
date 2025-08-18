@@ -3,6 +3,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
+import { Sidebar, SidebarProvider } from "@/components/ui/sidebar";
 
 interface ProjectFile {
   fileName: string;
@@ -18,7 +20,6 @@ interface Props {
 }
 const Layout = ({ children }: Props) => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const router = useRouter();
   const params = useParams();
 
   useEffect(() => {
@@ -51,9 +52,8 @@ const Layout = ({ children }: Props) => {
   };
 
   return (
-    <div className="flex">
-      <div className="h-screen w-64 border-e-1 overflow-y-auto">
-        <h2 className="sr-only">Projects</h2>
+    <div className="h-full flex items-stretch">
+      <Sidebar>
         {projects.map((project) => (
           <div key={project.project}>
             <h3 className="px-2 text-xl text-amber-300">{project.project}</h3>
@@ -70,7 +70,7 @@ const Layout = ({ children }: Props) => {
                   >
                     <Link
                       href={composeRoute(project.project, file.fileName) ?? "/"}
-                      className={`w-full flex justify-start cursor-pointer hover:bg-teal-900 pt-2 pb-0.5 ${isActive ? "border-b-1 border-b-teal-600 mx-2" : "px-2"}`}
+                      className={`w-full flex justify-start cursor-pointer hover:bg-teal-900 pt-2 pb-0.5 ${isActive ? "border-b-1 border-b-teal-600" : "px-2"}`}
                     >
                       {file.fileName.split("/").pop()?.split(".").shift()}
                     </Link>
@@ -80,10 +80,9 @@ const Layout = ({ children }: Props) => {
             </ul>
           </div>
         ))}
-      </div>
-      <main style={{ padding: "1rem", flexGrow: 1, overflowY: "auto" }}>
-        {children}
-      </main>
+      </Sidebar>
+      <Separator orientation="vertical" />
+      <main>{children}</main>
     </div>
   );
 };

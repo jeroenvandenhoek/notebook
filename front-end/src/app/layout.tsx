@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Separator } from "@/components/ui/separator";
+import { ThemeProvider } from "next-themes";
+import { ModeToggle } from "@/components/ModeToggle";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +29,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}
       >
-        {children}
+        <SidebarProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex gap-2 items-center justify-end px-4 py-2">
+              <ModeToggle />
+            </div>
+            <Separator />
+            {children}
+          </ThemeProvider>
+        </SidebarProvider>
       </body>
     </html>
   );
