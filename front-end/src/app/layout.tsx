@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full`}
       >
         <SidebarProvider>
           <ThemeProvider
@@ -38,10 +38,6 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex gap-2 items-center justify-end px-4 py-2">
-              <ModeToggle />
-            </div>
-            <Separator />
             {children}
           </ThemeProvider>
         </SidebarProvider>

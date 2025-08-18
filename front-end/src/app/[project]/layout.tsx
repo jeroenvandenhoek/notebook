@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface ProjectFile {
   fileName: string;
@@ -63,7 +64,7 @@ const Layout = ({ children }: Props) => {
   };
 
   return (
-    <div className="h-full flex items-stretch">
+    <>
       <Sidebar>
         <SidebarHeader>Projects</SidebarHeader>
         <SidebarContent>
@@ -86,7 +87,6 @@ const Layout = ({ children }: Props) => {
                               "/"
                             }
                             className="w-full"
-                            // className={`w-full flex justify-start cursor-pointer hover:bg-teal-900 pt-2 pb-0.5 ${isActive ? "border-b-1 border-b-teal-600" : "px-2"}`}
                           >
                             {file.fileName.split("/").pop()?.split(".").shift()}
                           </Link>
@@ -100,9 +100,14 @@ const Layout = ({ children }: Props) => {
           ))}
         </SidebarContent>
       </Sidebar>
-      <Separator orientation="vertical" />
-      <main>{children}</main>
-    </div>
+      <div className="w-full">
+        <div className="flex gap-2 items-center justify-end px-4 py-2">
+          <ModeToggle />
+        </div>
+        <Separator />
+        <main>{children}</main>
+      </div>
+    </>
   );
 };
 

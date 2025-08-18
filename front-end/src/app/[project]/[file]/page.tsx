@@ -44,9 +44,5 @@ export default function Page({ params }: PageProps) {
     };
   }, [project, file, setContent]);
 
-  return (
-    <main className="w-full h-full flex justify-around items-center">
-      <Mermaid chart={content} />
-    </main>
-  );
+  return <Mermaid chart={content} />;
 }

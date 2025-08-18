@@ -28,5 +28,7 @@ export default function Mermaid({ chart }: { chart: string }) {
     renderDiagram();
   }, [chart]);
 
-  return <div className="w-full" id={diagramId} />;
+  return (
+    <div className="w-full h-full p-4 flex justify-around" id={diagramId} />
+  );
 }
