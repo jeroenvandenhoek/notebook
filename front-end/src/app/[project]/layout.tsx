@@ -4,7 +4,18 @@ import { ReactNode, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Sidebar, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 
 interface ProjectFile {
   fileName: string;
@@ -54,32 +65,40 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="h-full flex items-stretch">
       <Sidebar>
-        {projects.map((project) => (
-          <div key={project.project}>
-            <h3 className="px-2 text-xl text-amber-300">{project.project}</h3>
-            <ul>
-              {project.files.map((file) => {
-                const basename = file.fileName.split("/").pop() || "";
-                const isActive =
-                  project.project === params.project &&
-                  basename === params.file;
-                return (
-                  <li
-                    key={file.fileName}
-                    className="w-full mb-1 overflow-x-clip"
-                  >
-                    <Link
-                      href={composeRoute(project.project, file.fileName) ?? "/"}
-                      className={`w-full flex justify-start cursor-pointer hover:bg-teal-900 pt-2 pb-0.5 ${isActive ? "border-b-1 border-b-teal-600" : "px-2"}`}
-                    >
-                      {file.fileName.split("/").pop()?.split(".").shift()}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+        <SidebarHeader>Projects</SidebarHeader>
+        <SidebarContent>
+          {projects.map((project) => (
+            <SidebarGroup key={project.project}>
+              <SidebarGroupLabel>{project.project}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {project.files.map((file) => {
+                    const basename = file.fileName.split("/").pop() || "";
+                    const isActive =
+                      project.project === params.project &&
+                      basename === params.file;
+                    return (
+                      <SidebarMenuItem key={file.fileName}>
+                        <SidebarMenuButton isActive={isActive}>
+                          <Link
+                            href={
+                              composeRoute(project.project, file.fileName) ??
+                              "/"
+                            }
+                            className="w-full"
+                            // className={`w-full flex justify-start cursor-pointer hover:bg-teal-900 pt-2 pb-0.5 ${isActive ? "border-b-1 border-b-teal-600" : "px-2"}`}
+                          >
+                            {file.fileName.split("/").pop()?.split(".").shift()}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </SidebarContent>
       </Sidebar>
       <Separator orientation="vertical" />
       <main>{children}</main>
