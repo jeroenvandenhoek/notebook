@@ -14,7 +14,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/ModeToggle";
 
@@ -37,7 +36,7 @@ const Layout = ({ children }: Props) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch("http://localhost:8080/files");
+        const response = await fetch("http://localhost:4002/files");
         if (!response.ok) {
           console.error("Failed to fetch projects");
           return;

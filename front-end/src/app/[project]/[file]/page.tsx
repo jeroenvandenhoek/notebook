@@ -18,7 +18,7 @@ export default function Page({ params }: PageProps) {
     if (!project || !file) return;
 
     const eventSource = new EventSource(
-      `http://localhost:8080/stream/${project}/${file}`,
+      `http://localhost:4002/stream/${project}/${file}`,
     );
 
     eventSource.onmessage = (event) => {

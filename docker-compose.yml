@@ -7,14 +7,14 @@ services:
       context: ./front-end
     container_name: front-end
     ports:
-      - "3000:3000"
+      - "4001:3000"
   back-end:
     container_name: back-end
     build:
       context: ./back-end
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "4002:8080"
     volumes:
       - ${NOTEBOOK_FOLDER}:/app/notebooks
     environment:
