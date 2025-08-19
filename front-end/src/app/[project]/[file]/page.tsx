@@ -2,6 +2,7 @@
 
 import { use, useEffect, useState } from "react";
 import Mermaid from "../../../components/Mermaid";
+import { Markdown } from "@/components/Markdown";
 
 type PageProps = {
   params: Promise<{
@@ -22,7 +23,7 @@ export default function Page({ params }: PageProps) {
     );
 
     eventSource.onmessage = (event) => {
-      console.log("message recieved");
+      console.log("message recieved from ", project, file);
       try {
         const data = JSON.parse(event.data);
         if (data.contents) {
@@ -44,5 +45,11 @@ export default function Page({ params }: PageProps) {
     };
   }, [project, file, setContent]);
 
-  return <Mermaid chart={content} />;
+  return file.includes("\.mmd") ? (
+    <Mermaid content={content} />
+  ) : (
+    <Mermaid>
+      <Markdown>{content}</Markdown>
+    </Mermaid>
+  );
 }

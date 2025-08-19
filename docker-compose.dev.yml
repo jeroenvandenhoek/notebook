@@ -8,7 +8,7 @@ services:
       target: dev
     container_name: front-end-dev
     ports:
-      - "3000:3000"
+      - "4001:3000"
     volumes:
       - ./front-end/src:/app/src
       - /app/node_modules
@@ -19,7 +19,7 @@ services:
       context: ./back-end
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "4002:8080"
     volumes:
       - ${NOTEBOOK_FOLDER}:/app/notebooks
     environment:

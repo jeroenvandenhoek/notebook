@@ -1,34 +1,41 @@
 "use client";
 
-import { useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import mermaid from "mermaid";
 
-const diagramId = "mermaid-diagram-container";
-
-export default function Mermaid({ chart }: { chart: string }) {
+interface Props {
+  content?: string;
+  children?: ReactNode;
+}
+/**
+ *
+ * use content when you have a string that is pure mermaid
+ * use children when you have a markdown component that contains mermaid code
+ */
+export default function Mermaid({ content, children }: Props) {
+  const divElement = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    if (!divElement.current) return;
+
     mermaid.initialize({
       startOnLoad: false,
       theme: "default",
       securityLevel: "loose",
     });
 
-    const renderDiagram = async () => {
-      const container = document.getElementById(diagramId);
-      if (container) {
-        try {
-          const { svg } = await mermaid.render("graphDiv", chart);
-          container.innerHTML = svg;
-        } catch (error) {
-          container.innerHTML = `<pre>${error instanceof Error ? error.message : "Error rendering diagram"}</pre>`;
-        }
-      }
-    };
-
-    renderDiagram();
-  }, [chart]);
+    if (!!content) {
+      mermaid.run({ nodes: [divElement.current] });
+      return;
+    }
+    mermaid.run({ querySelector: ".language-mermaid" });
+  }, [children, divElement, content]);
 
   return (
-    <div className="w-full h-full p-4 flex justify-around" id={diagramId} />
+    <div
+      className={`w-full h-full px-6 py-4 markdown-body ${content ? "flex justify-center" : ""}`}
+      ref={divElement}
+    >
+      {content ? content : children}
+    </div>
   );
 }

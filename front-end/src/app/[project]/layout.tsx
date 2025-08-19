@@ -100,10 +100,12 @@ const Layout = ({ children }: Props) => {
         </SidebarContent>
       </Sidebar>
       <div className="w-full">
-        <div className="flex gap-2 items-center justify-end px-4 py-2">
-          <ModeToggle />
+        <div className="sticky top-0 bg-sidebar">
+          <div className="flex gap-2 items-center justify-end px-4 py-2">
+            <ModeToggle />
+          </div>
+          <Separator />
         </div>
-        <Separator />
         <main>{children}</main>
       </div>
     </>
