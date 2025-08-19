@@ -23,11 +23,17 @@ export default function Mermaid({ content, children }: Props) {
       securityLevel: "loose",
     });
 
-    if (!!content) {
-      mermaid.run({ nodes: [divElement.current] });
+    if (!!content && !!divElement.current) {
+      mermaid.run({ nodes: [divElement.current] }).then(() => {
+        delete divElement.current?.dataset.processed;
+      });
       return;
     }
-    mermaid.run({ querySelector: ".language-mermaid" });
+    mermaid.run({ querySelector: ".language-mermaid" }).then(() => {
+      document.querySelectorAll(".language-mermaid").forEach((el: Element) => {
+        if (el instanceof HTMLElement) delete el.dataset.processed;
+      });
+    });
   }, [children, divElement, content]);
 
   return (
